@@ -1,7 +1,10 @@
 from fastapi import FastAPI
-from app.models import user, product, wishlist, hairtype
+from app.controllers import auth_controller
 
 app = FastAPI()
+
+app.include_router(auth_controller.router)
+
 
 @app.get("/")
 def read_root():

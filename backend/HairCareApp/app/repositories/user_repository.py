@@ -6,7 +6,7 @@ class UserRepository:
     def __init__(self):
         self.dal = UserDAL()
 
-    def register_user(self, user_dto: UserCreateDTO) -> UserResponseDTO:
+    def register_user(self, user_dto: UserCreateDTO) -> UserResponseDTO | None:
         # UserCreateDTO should already contain the password hashed
         user_data = user_dto.model_dump()
         user_data["user_id"] = self._generate_user_id()

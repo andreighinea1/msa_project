@@ -8,7 +8,7 @@ class UserService:
     def __init__(self):
         self.user_repository = UserRepository()
 
-    def register_user(self, user_create_dto: UserCreateDTO) -> UserResponseDTO:
+    def register_user(self, user_create_dto: UserCreateDTO) -> UserResponseDTO | None:
         # Check if user already exists
         existing_user = self.user_repository.get_user_by_email(user_create_dto.email)
         if existing_user:
@@ -21,11 +21,11 @@ class UserService:
         # Save user and return the response DTO
         return self.user_repository.register_user(user_create_dto)
 
-    def login_user(self, user_login_dto: UserLoginDTO) -> bool:
+    def login_user(self, user_login_dto: UserLoginDTO) -> UserResponseDTO | None:
         user_data = self.user_repository.get_user_by_email(user_login_dto.email)
         if user_data and self._check_password(user_login_dto.password, user_data["password"]):
-            return True
-        return False
+            return user_data
+        return None
 
     @staticmethod
     def _hash_password(plain_text_password: str) -> str:
