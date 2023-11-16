@@ -9,10 +9,12 @@ user_service = UserService()
 
 @router.post("/login")
 def login(user_login_dto: UserLoginDTO):
-    user = user_service.login_user(user_login_dto)
-
-    if user:
-        return {"access_token": create_access_token(data={"sub": user.id})}
+    try:
+        user = user_service.login_user(user_login_dto)
+        if user:
+            return {"access_token": create_access_token(data={"sub": user.id})}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     raise HTTPException(status_code=401, detail="Invalid credentials")
 
 
@@ -22,6 +24,6 @@ def register(user_create_dto: UserCreateDTO):
         user = user_service.register_user(user_create_dto)
         if user:
             return {"message": "User successfully registered", "user_id": user.id}
-        raise HTTPException(status_code=400, detail="Registration failed")
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    raise HTTPException(status_code=401, detail="Registration failed")

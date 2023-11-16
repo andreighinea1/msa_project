@@ -1,3 +1,6 @@
+import uuid
+from datetime import datetime
+
 from app.dal.user_dal import UserDAL
 from app.dto.user_dto import UserCreateDTO, UserResponseDTO
 
@@ -19,6 +22,12 @@ class UserRepository:
             return UserResponseDTO(**user_data)
         return None
 
-    def _generate_user_id(self) -> str:
-        # TODO: Implement user ID generation logic
-        return "some_unique_user_id"
+    @staticmethod
+    def _generate_user_id() -> str:
+        # Generate a UUID based on the host ID, sequence number, and current time
+        unique_id = uuid.uuid1()
+
+        # Format the datetime and UUID for a more readable ID
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        user_id = f"{timestamp}-{unique_id.hex[:8]}"
+        return user_id
