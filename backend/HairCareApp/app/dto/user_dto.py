@@ -6,6 +6,7 @@ class UserCreateDTO(BaseModel):
     last_name: str = Field(..., min_length=1, max_length=50, description="The user's last name")
     email: EmailStr = Field(..., description="The user's email address")
     password: str = Field(..., min_length=7, max_length=50, description="A password for the user account")
+    confirm_password: str = Field(..., min_length=7, max_length=50, description="The same password as above")
 
     class Config:
         schema_extra = {
@@ -13,7 +14,8 @@ class UserCreateDTO(BaseModel):
                 "first_name": "John",
                 "last_name": "Doe",
                 "email": "johndoe@example.com",
-                "password": "a_secure_password_123"
+                "password": "a_secure_password_123",
+                "confirm_password": "a_secure_password_123"
             }
         }
 

@@ -9,6 +9,10 @@ class UserService:
         self.user_repository = UserRepository()
 
     def register_user(self, user_create_dto: UserCreateDTO) -> UserResponseDTO | None:
+        # Check if password == confirm_password
+        if user_create_dto.password != user_create_dto.confirm_password:
+            raise ValueError(f"The passwords do not match!")
+
         # Check if user already exists
         existing_user = self.user_repository.get_user_by_email(user_create_dto.email)
         if existing_user:
