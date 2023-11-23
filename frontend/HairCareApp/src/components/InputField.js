@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextInput, View, StyleSheet } from 'react-native';
-import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
 import { useFonts, Abel_400Regular } from '@expo-google-fonts/abel';
 
+SplashScreen.preventAutoHideAsync(); // Prevent the splash screen from hiding
+
 const InputField = (props) => {
-    let [fontsLoaded] = useFonts({
+    const [fontsLoaded] = useFonts({
         Abel_400Regular,
     });
 
+    useEffect(() => {
+        async function prepare() {
+            if (fontsLoaded) {
+                await SplashScreen.hideAsync(); // Hide the splash screen when fonts are loaded
+            }
+        }
+
+        prepare();
+    }, [fontsLoaded]);
+
     if (!fontsLoaded) {
-        return <AppLoading />;
+        return null; // The SplashScreen will be automatically loaded
     } else {
         return (
             <View style={styles.container}>
