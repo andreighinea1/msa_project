@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text } from 'react-native';
-import InputField from '../components/InputField'; // Import your custom InputField
-import CustomButton from '../components/Button'; // Import your custom CustomButton
+import React, {useState} from 'react';
+import {View, Text} from 'react-native';
+import {InputField, Button} from '../components';
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = ({navigation}) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -36,7 +35,6 @@ const RegisterScreen = ({ navigation }) => {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Registration successful:', data);
-                // Perform actions after successful registration, like navigation or updating global state
             } else {
                 const errorData = await response.json();
                 setErrorMessage(errorData.detail || 'Registration failed');
@@ -45,6 +43,10 @@ const RegisterScreen = ({ navigation }) => {
             console.error('Registration error:', error);
             setErrorMessage('An error occurred during registration');
         }
+    };
+
+    const handleLoginNavigation = () => {
+        navigation.navigate('Login');
     };
 
 
@@ -77,7 +79,8 @@ const RegisterScreen = ({ navigation }) => {
                 onChangeText={setConfirmPassword}
                 secureTextEntry
             />
-            <CustomButton title="Register" onPress={handleRegister}/>
+            <Button title="Register" onPress={handleRegister}/>
+            <Button title="Go to Login" onPress={handleLoginNavigation}/>
             {errorMessage ? <Text>{errorMessage}</Text> : null}
         </View>
     );
