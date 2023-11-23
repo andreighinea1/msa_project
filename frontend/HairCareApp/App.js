@@ -1,13 +1,19 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from "./src/pages/LoginScreen";
+import RegisterScreen from "./src/pages/RegisterScreen"; // Import your RegisterScreen
+
+const Stack = createNativeStackNavigator();
 
 function App() {
     return (
-        <View style={styles.app}>
-            <Text style={styles.text}>
-                Welcome to HairCareApp!
-            </Text>
-        </View>
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="Login">
+                <Stack.Screen name="Login" component={LoginScreen} />
+                <Stack.Screen name="Register" component={RegisterScreen} />
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }
 

@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
-import {View, TextInput, Button, Text} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text } from 'react-native';
+import InputField from '../components/InputField'; // Import your custom InputField
+import CustomButton from '../components/Button'; // Import your custom CustomButton
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -13,13 +15,13 @@ const LoginScreen = ({navigation}) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({email, password}),
+                body: JSON.stringify({ email, password }),
             });
 
             if (response.ok) {
                 const data = await response.json();
                 console.log('Login successful:', data);
-                // Navigate to another screen or update global state here
+                // Perform actions after successful login, like updating global state
             } else {
                 setErrorMessage('Invalid credentials');
             }
@@ -29,20 +31,26 @@ const LoginScreen = ({navigation}) => {
         }
     };
 
+    // Placeholder function for Register button
+    const handleRegisterNavigation = () => {
+        navigation.navigate('Register');
+    };
+
     return (
         <View>
-            <TextInput
+            <InputField
                 placeholder="Email"
                 value={email}
                 onChangeText={setEmail}
             />
-            <TextInput
+            <InputField
                 placeholder="Password"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
             />
-            <Button title="Login" onPress={handleLogin}/>
+            <CustomButton title="Login" onPress={handleLogin}/>
+            <CustomButton title="Register" onPress={handleRegisterNavigation}/>
             {errorMessage ? <Text>{errorMessage}</Text> : null}
         </View>
     );
