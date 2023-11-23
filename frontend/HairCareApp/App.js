@@ -13,14 +13,12 @@ function App() {
 
 const styles = StyleSheet.create({
     app: {
-        // Your app styles go here, for example:
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
     text: {
-        // Your text styles go here, for example:
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
