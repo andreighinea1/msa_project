@@ -1,6 +1,6 @@
 import bcrypt
 
-from app.dto.user_dto import UserCreateDTO, UserLoginDTO, UserResponseDTO
+from app.dto.user_dto import UserCreateDTO, UserLoginDTO, UserResponseDTO, UserLoginResponseDTO
 from app.repositories.user_repository import UserRepository
 
 
@@ -26,9 +26,11 @@ class UserService:
         return self.user_repository.register_user(user_create_dto)
 
     def login_user(self, user_login_dto: UserLoginDTO) -> UserResponseDTO | None:
-        user_data = self.user_repository.get_user_by_email(user_login_dto.email)
-        if user_data and self._check_password(user_login_dto.password, user_data["password"]):
-            return user_data
+        user_dto: UserLoginResponseDTO = self.user_repository.get_user_by_email_with_password(user_login_dto.email)
+        if user_dto and self._check_password(user_login_dto.password, user_dto.password):
+            user_data = user_dto.model_dump()
+            del user_data["password"]
+            return UserResponseDTO(**user_data)
         return None
 
     @staticmethod

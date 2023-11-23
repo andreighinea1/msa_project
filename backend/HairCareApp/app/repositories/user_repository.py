@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 
 from app.dal.user_dal import UserDAL
-from app.dto.user_dto import UserCreateDTO, UserResponseDTO
+from app.dto.user_dto import UserCreateDTO, UserResponseDTO, UserLoginResponseDTO
 
 
 class UserRepository:
@@ -20,6 +20,12 @@ class UserRepository:
         user_data = self.dal.get_user_by_email(email)
         if user_data:
             return UserResponseDTO(**user_data)
+        return None
+
+    def get_user_by_email_with_password(self, email: str) -> UserLoginResponseDTO | None:
+        user_data = self.dal.get_user_by_email(email)
+        if user_data:
+            return UserLoginResponseDTO(**user_data)
         return None
 
     @staticmethod

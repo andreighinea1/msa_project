@@ -30,3 +30,11 @@ class UserResponseDTO(BaseModel):
     first_name: str = Field(..., description="The user's first name")
     last_name: str = Field(..., description="The user's last name")
     email: EmailStr = Field(..., description="The user's email address")
+
+
+class UserLoginResponseDTO(BaseModel):
+    user_id: str = Field(..., description="The unique identifier for the user")
+    first_name: str = Field(..., description="The user's first name")
+    last_name: str = Field(..., description="The user's last name")
+    email: EmailStr = Field(..., description="The user's email address")
+    password: str = Field(..., description="The user's hashed password from the db")

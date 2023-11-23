@@ -12,7 +12,10 @@ def login(user_login_dto: UserLoginDTO):
     try:
         user = user_service.login_user(user_login_dto)
         if user:
-            return {"access_token": create_access_token(data={"sub": user.id})}
+            return {
+                "message": "User successfully logged in",
+                "access_token": create_access_token(data={"sub": user.user_id}),
+            }
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     raise HTTPException(status_code=401, detail="Invalid credentials")
@@ -23,7 +26,10 @@ def register(user_create_dto: UserCreateDTO):
     try:
         user = user_service.register_user(user_create_dto)
         if user:
-            return {"message": "User successfully registered", "user_id": user.id}
+            return {
+                "message": "User successfully registered",
+                "user_id": user.user_id,
+            }
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     raise HTTPException(status_code=401, detail="Registration failed")

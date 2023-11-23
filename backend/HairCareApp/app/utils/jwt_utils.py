@@ -18,13 +18,13 @@ def create_access_token(*, data: dict, expires_delta: timedelta = None) -> str:
     else:
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(payload=to_encode, key=SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
 
 def verify_access_token(token: str, credentials_exception) -> Any:
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(jwt=token, key=SECRET_KEY, algorithms=[ALGORITHM])
         return payload
     except jwt.PyJWTError:
         raise credentials_exception
