@@ -1,3 +1,5 @@
+import logging
+
 import bcrypt
 
 from app.dto.user_dto import UserCreateDTO, UserLoginDTO, UserResponseDTO, UserLoginResponseDTO
@@ -9,6 +11,8 @@ class UserService:
         self.user_repository = UserRepository()
 
     def register_user(self, user_create_dto: UserCreateDTO) -> UserResponseDTO | None:
+        logging.info(f"User registration started for email: {user_create_dto.email}")
+
         # Check if password == confirm_password
         if user_create_dto.password != user_create_dto.confirm_password:
             raise ValueError(f"The passwords do not match!")
@@ -26,6 +30,8 @@ class UserService:
         return self.user_repository.register_user(user_create_dto)
 
     def login_user(self, user_login_dto: UserLoginDTO) -> UserResponseDTO | None:
+        logging.info(f"User login attempt for email: {user_login_dto.email}")
+
         user_dto: UserLoginResponseDTO = self.user_repository.get_user_by_email_with_password(user_login_dto.email)
         if user_dto and self._check_password(user_login_dto.password, user_dto.password):
             user_data = user_dto.model_dump()

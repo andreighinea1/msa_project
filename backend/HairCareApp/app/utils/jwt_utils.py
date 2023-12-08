@@ -1,8 +1,10 @@
+import logging
+import os
 from datetime import datetime, timedelta
 from typing import Any
+
 import jwt
 from dotenv import load_dotenv
-import os
 
 load_dotenv()  # This loads the environment variables from .env
 
@@ -12,6 +14,8 @@ ALGORITHM = "HS256"
 
 
 def create_access_token(*, data: dict, expires_delta: timedelta = None) -> str:
+    logging.info(f"Creating access token for user: {data.get('sub', 'unknown')}")
+
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
@@ -23,8 +27,11 @@ def create_access_token(*, data: dict, expires_delta: timedelta = None) -> str:
 
 
 def verify_access_token(token: str, credentials_exception) -> Any:
+    logging.info("Verifying access token")
+
     try:
         payload = jwt.decode(jwt=token, key=SECRET_KEY, algorithms=[ALGORITHM])
         return payload
-    except jwt.PyJWTError:
+    except jwt.PyJWTError as e:
+        logging.error(f"Token verification failed: {e}")
         raise credentials_exception

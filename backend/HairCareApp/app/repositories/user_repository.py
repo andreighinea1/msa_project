@@ -1,3 +1,4 @@
+import logging
 import uuid
 from datetime import datetime
 
@@ -10,6 +11,8 @@ class UserRepository:
         self.dal = UserDAL()
 
     def register_user(self, user_dto: UserCreateDTO) -> UserResponseDTO | None:
+        logging.info(f"Registering user with email: {user_dto.email}")
+
         # UserCreateDTO should already contain the password hashed
         user_data = user_dto.model_dump()
         user_data["user_id"] = self._generate_user_id()
@@ -17,12 +20,16 @@ class UserRepository:
         return UserResponseDTO(**user_data)
 
     def get_user_by_email(self, email: str) -> UserResponseDTO | None:
+        logging.info(f"Fetching user by email: {email}")
+
         user_data = self.dal.get_user_by_email(email)
         if user_data:
             return UserResponseDTO(**user_data)
         return None
 
     def get_user_by_email_with_password(self, email: str) -> UserLoginResponseDTO | None:
+        logging.info(f"Fetching user for login: {email}")
+
         user_data = self.dal.get_user_by_email(email)
         if user_data:
             return UserLoginResponseDTO(**user_data)
