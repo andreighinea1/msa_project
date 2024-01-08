@@ -1,3 +1,3 @@
-export Button from './Button';
-export InputField from './InputField';
-export ProductCard from './ProductCard';
+export {default as Button} from './Button';
+export {default as InputField} from './InputField';
+export {default as ProductCard} from './ProductCard';
