@@ -9,7 +9,7 @@ class ProductDAL:
         self.dynamodb = boto3.resource("dynamodb")
         self.table = self.dynamodb.Table("Products")
 
-    def get_products_by_hair_profile(self, hair_profile: dict, product_type: str):
+    def get_products_by_type_and_hair_profile(self, hair_profile: dict, product_type: str):
         # Construct the filter expression based on the hair profile
         filter_expression = Attr("type").eq(product_type)
         for key, value in hair_profile.items():
@@ -20,5 +20,13 @@ class ProductDAL:
         # Scan the table with the constructed filter expression
         response = self.table.scan(
             FilterExpression=filter_expression
+        )
+        return response["Items"] if response["Items"] else []
+
+    def get_products_by_type(self, product_type: str):
+        logging.info(f"Fetching products of type: {product_type}")
+
+        response = self.table.scan(
+            FilterExpression=Attr("type").eq(product_type)
         )
         return response["Items"] if response["Items"] else []

@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 
 from app.dependencies import get_current_user_id
-from app.dto.product_dto import ProductRecommendationRequestDTO, ProductDTO
+from app.dto.product_dto import ProductRecommendationRequestDTO, ProductDTO, ProductTypeRequestDTO
 from app.services.hair_type_service import HairTypeService
 from app.services.product_service import ProductService
 
@@ -27,5 +27,14 @@ async def get_product_recommendations(
             recommendation_data.product_type
         )
         return recommended_products
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/view", response_model=List[ProductDTO])
+async def get_products_by_type(request_data: ProductTypeRequestDTO) -> List[ProductDTO]:
+    try:
+        products = product_service.get_products_by_type(request_data.product_type)
+        return products
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

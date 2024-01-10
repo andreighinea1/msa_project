@@ -10,3 +10,6 @@ class ProductService:
 
     def get_recommended_products(self, hair_profile: dict, product_type: str) -> List[ProductDTO]:
         return self.product_repository.get_recommended_products(hair_profile, product_type)
+
+    def get_products_by_type(self, product_type: str) -> List[ProductDTO]:
+        return self.product_repository.get_products_by_type(product_type)
