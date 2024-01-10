@@ -12,7 +12,7 @@ logging.basicConfig(
 
 app = FastAPI()
 
-app.include_router(user_controller.router, prefix="/auth")
+app.include_router(user_controller.router, prefix="/user")
 app.include_router(product_controller.router, prefix="/products")
 app.include_router(wishlist_controller.router, prefix="/wishlist")
 app.include_router(hair_type_controller.router, prefix="/hair-type")
