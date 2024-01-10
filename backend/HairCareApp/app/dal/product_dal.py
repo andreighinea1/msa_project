@@ -21,4 +21,4 @@ class ProductDAL:
         response = self.table.scan(
             FilterExpression=filter_expression
         )
-        return response['Items'] if response['Items'] else []
+        return response["Items"] if response["Items"] else []

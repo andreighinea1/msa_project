@@ -3,14 +3,6 @@ from typing import List, Dict
 from pydantic import BaseModel, Field
 
 
-class HairTypeDTO(BaseModel):
-    health: str = Field(..., description="The health condition of the hair", example="Chemically Treated")
-    texture: str = Field(..., description="The texture of the hair", example="Curly")
-    strand_thickness: str = Field(..., description="The thickness of the hair strands", example="Thick")
-    scalp_condition: str = Field(..., description="The condition of the scalp", example="Oily")
-    hair_concern: str = Field(..., description="The primary hair concern of the user", example="Volume")
-
-
 class ProductDTO(BaseModel):
     product_id: str = Field(..., description="Unique identifier for the product")
     name: str = Field(..., description="Name of the product")
