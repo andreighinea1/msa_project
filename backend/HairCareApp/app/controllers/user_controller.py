@@ -3,7 +3,7 @@ import logging
 from fastapi import APIRouter, HTTPException
 
 from app.dto.user_dto import UserLoginDTO, UserCreateDTO
-from app.services.auth_service import UserService
+from app.services.user_service import UserService
 from app.utils.jwt_utils import create_access_token
 
 router = APIRouter()

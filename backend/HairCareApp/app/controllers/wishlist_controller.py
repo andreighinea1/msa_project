@@ -10,7 +10,7 @@ router = APIRouter()
 wishlist_service = WishlistService()
 
 
-@router.post("/add")
+@router.post("/add", response_model=WishlistProductDTO)
 def wishlist_product(
         wishlist_data: WishlistProductAddDTO,
         current_user_id: str = Depends(get_current_user_id),  # In Front-End we'll send the JWT here
@@ -22,7 +22,7 @@ def wishlist_product(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/view")
+@router.get("/view", response_model=List[WishlistProductDTO])
 def see_wishlisted_products(
         current_user_id: str = Depends(get_current_user_id)
 ) -> List[WishlistProductDTO]:

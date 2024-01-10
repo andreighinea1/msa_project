@@ -12,7 +12,7 @@ hair_type_service = HairTypeService()
 product_service = ProductService()
 
 
-@router.post("/recommendations")
+@router.post("/recommendations", response_model=List[ProductDTO])
 async def get_product_recommendations(
         recommendation_data: ProductRecommendationRequestDTO,
         current_user_id: str = Depends(get_current_user_id),  # In Front-End we'll send the JWT here
