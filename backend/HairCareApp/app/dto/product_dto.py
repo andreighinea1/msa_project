@@ -29,3 +29,7 @@ class ProductDTO(BaseModel):
                 }
             }
         }
+
+
+class ProductRecommendationRequestDTO(BaseModel):
+    product_type: str = Field(..., description="The type of the product for which recommendations are sought")

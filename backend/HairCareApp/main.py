@@ -2,7 +2,7 @@ import logging
 
 from fastapi import FastAPI
 
-from app.controllers import auth_controller, product_controller
+from app.controllers import auth_controller, product_controller, wishlist_controller
 
 logging.basicConfig(
     level=logging.INFO,
@@ -14,6 +14,7 @@ app = FastAPI()
 
 app.include_router(auth_controller.router, prefix="/auth")
 app.include_router(product_controller.router, prefix="/products")
+app.include_router(wishlist_controller.router, prefix="/wishlist")
 
 
 @app.get("/")
