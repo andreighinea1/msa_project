@@ -10,6 +10,10 @@ class UserService:
     def __init__(self):
         self.user_repository = UserRepository()
 
+    def get_user_info(self, user_id: str) -> UserResponseDTO | None:
+        logging.info(f"Fetching user information for user ID: {user_id}")
+        return self.user_repository.get_user_by_id(user_id)
+
     def register_user(self, user_create_dto: UserCreateDTO) -> UserResponseDTO | None:
         logging.info(f"User registration started for email: {user_create_dto.email}")
 

@@ -9,6 +9,13 @@ class UserDAL:
         self.dynamodb = boto3.resource('dynamodb')
         self.table = self.dynamodb.Table('Users')
 
+    def get_user_by_id(self, user_id: str):
+        logging.info(f"Fetching user data for user ID: {user_id}")
+        response = self.table.get_item(
+            Key={'user_id': user_id}
+        )
+        return response.get('Item')
+
     def get_user_by_email(self, email):
         logging.info(f"Attempting to fetch user with email: {email}")
 

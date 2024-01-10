@@ -10,6 +10,11 @@ class UserRepository:
     def __init__(self):
         self.dal = UserDAL()
 
+    def get_user_by_id(self, user_id: str) -> UserResponseDTO | None:
+        logging.info(f"Fetching user information for user ID: {user_id}")
+        user_data = self.dal.get_user_by_id(user_id)
+        return UserResponseDTO(**user_data) if user_data else None
+
     def register_user(self, user_dto: UserCreateDTO) -> UserResponseDTO | None:
         logging.info(f"Registering user with email: {user_dto.email}")
 
