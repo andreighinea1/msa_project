@@ -1,7 +1,7 @@
 import React from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const CustomButton = ({title, onPress, styleType = 'default'}) => {
+const CustomButton = ({ title, onPress, styleType = 'default' }) => {
     return (
         <TouchableOpacity style={[styles.button, styles[styleType].button]} onPress={onPress}>
             <Text style={[styles.text, styles[styleType].text]}>{title}</Text>
@@ -17,6 +17,8 @@ const styles = StyleSheet.create({
         borderRadius: 80,
         justifyContent: 'center',
         alignItems: 'center',
+        alignSelf: 'center', // Center the button
+        marginVertical: 5, // Adds space above and below the input field
     },
     text: {
         // Default text styles
@@ -35,8 +37,11 @@ const styles = StyleSheet.create({
         button: {
             width: '35%',
             height: '14%',
-            backgroundColor: '#020953',
+            backgroundColor: '#615143',
             borderRadius: 40,
+            position: 'absolute', // Position the button absolutely
+            bottom: 10,          // Distance from the bottom of the parent container
+            right: 10,           // Distance from the right of the parent container
         },
         text: {
             color: '#F9F5F0',
