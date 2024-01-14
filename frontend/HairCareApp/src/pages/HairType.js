@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import BottomNavigationBar from "../components/BottomNavigationBar";
 import CustomButton from "../components/Button";
+import {useCustomFonts} from "../utils";
+
 const HairQuizScreen = ({ navigation }) => {
     const [selections, setSelections] = useState({
         health: '',
@@ -62,35 +64,42 @@ const HairQuizScreen = ({ navigation }) => {
         // Example: navigation.navigate('Results', { selections });
         navigation.navigate('HairProduct');
     };
-    return (
-        <ImageBackground
-            source={require('../utils/pictures/background-pages.png')} // replace with your local image
-            style={styles.backgroundImage}
-        >
-            <View style={styles.contentWrapper}>
-                <View style={ styles.titleContainer}>
-                    <Text style={styles.title}>Hair Quiz</Text>
-                </View>
 
-                <View style={styles.quizContainer}>
-                    <Text style={styles.subtitle}>Health</Text>
-                    {renderOptions('health', ['healthy', 'chemically treated'])}
-                    <Text style={styles.subtitle}>Texture</Text>
-                    {renderOptions('texture', ['straight', 'wavy', 'curly', 'coily'])}
-                    <Text style={styles.subtitle}>Strand Thickness</Text>
-                    {renderOptions('thickness', ['fine', 'medium', 'thick'])}
-                    <Text style={styles.subtitle}>Scalp Condition</Text>
-                    {renderOptions('scalp', ['balanced', 'oily', 'dry'])}
-                    <Text style={styles.subtitle}>Primary Concerns</Text>
-                    {renderOptions('concerns', ['volume', 'moisture', 'curl definition', 'damage repair'])}
+    const appIsReady = useCustomFonts();
+
+    if (!appIsReady) {
+        return null; // Or a custom loader
+    } else {
+        return (
+            <ImageBackground
+                source={require('../utils/pictures/background-pages.png')} // replace with your local image
+                style={styles.backgroundImage}
+            >
+                <View style={styles.contentWrapper}>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.title}>Hair Quiz</Text>
+                    </View>
+
+                    <View style={styles.quizContainer}>
+                        <Text style={styles.subtitle}>Health</Text>
+                        {renderOptions('health', ['healthy', 'chemically treated'])}
+                        <Text style={styles.subtitle}>Texture</Text>
+                        {renderOptions('texture', ['straight', 'wavy', 'curly', 'coily'])}
+                        <Text style={styles.subtitle}>Strand Thickness</Text>
+                        {renderOptions('thickness', ['fine', 'medium', 'thick'])}
+                        <Text style={styles.subtitle}>Scalp Condition</Text>
+                        {renderOptions('scalp', ['balanced', 'oily', 'dry'])}
+                        <Text style={styles.subtitle}>Primary Concerns</Text>
+                        {renderOptions('concerns', ['volume', 'moisture', 'curl definition', 'damage repair'])}
+                    </View>
+                    <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+                        <Text style={styles.saveButtonText}>Save</Text>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-                    <Text style={styles.saveButtonText}>Save</Text>
-                </TouchableOpacity>
-            </View>
-            <BottomNavigationBar navigation={navigation} />
-    </ImageBackground>
-    );
+                <BottomNavigationBar navigation={navigation}/>
+            </ImageBackground>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
@@ -116,7 +125,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 30,
         color: '#362A20',
-        fontFamily: 'Prata',
+        fontFamily: 'Prata_400Regular',
         alignSelf: 'center',
         marginTop: 50,
         textTransform: 'uppercase',
@@ -149,7 +158,7 @@ const styles = StyleSheet.create({
     optionText: {
         fontSize: 10,
         color: '#362A20',
-        fontFamily: 'Abel'
+        fontFamily: 'Abel_400Regular'
     },
     optionsRowContainer: {
         flexDirection: 'row', // Arrange items in a row
@@ -169,7 +178,7 @@ const styles = StyleSheet.create({
         color: '#F9F5F0', // Text color
         fontSize: 15,
         textAlign: 'center', // Center text
-        fontFamily: 'Abel', // Use your desired font
+        fontFamily: 'Abel_400Regular', // Use your desired font
     },
 
 

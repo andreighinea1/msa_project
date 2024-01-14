@@ -14,32 +14,32 @@ const Stack = createNativeStackNavigator();
 function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Login">
-                <Stack.Screen
-                    name="Login"
-                    component={LoginScreen}
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name="Register"
-                    component={RegisterScreen}
-                    options={{ headerShown: false }}/>
+            {/*<Stack.Navigator initialRouteName="Login">*/}
+            {/*    <Stack.Screen*/}
+            {/*        name="Login"*/}
+            {/*        component={LoginScreen}*/}
+            {/*        options={{headerShown: false}}/>*/}
+            {/*    <Stack.Screen*/}
+            {/*        name="Register"*/}
+            {/*        component={RegisterScreen}*/}
+            {/*        options={{headerShown: false}}/>*/}
+            <Stack.Navigator initialRouteName="WishList">
                 <Stack.Screen
                     name="HairType"
                     component={HairQuizScreen}
-                    options={{ headerShown: false }}/>
+                    options={{headerShown: false}}/>
                 <Stack.Screen
                     name="HairProduct"
                     component={HairProductsScreen}
-                    options={{ headerShown: false }}/>
+                    options={{headerShown: false}}/>
                 <Stack.Screen
                     name="WishList"
                     component={WishListScreen}
-                    options={{ headerShown: false }}/>
+                    options={{headerShown: false}}/>
                 <Stack.Screen
                     name="NavBar"
                     component={BottomNavigationBar}
-                    options={{ headerShown: false }}/>
+                    options={{headerShown: false}}/>
             </Stack.Navigator>
         </NavigationContainer>
     );

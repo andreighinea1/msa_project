@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, FlatList, ImageBackground} from 'react-native';
 import ProductCard from '../components/ProductCard';
 import BottomNavigationBar from "../components/BottomNavigationBar"; // Ensure this path is correct
 
-const WishListScreen = () => {
+const WishListScreen = ({ navigation }) => {
     // Sample data - replace with your actual product data
     const ItemSeparator = () => <View style={{ height: 20 }} />; // Adjust height for desired spacing
 

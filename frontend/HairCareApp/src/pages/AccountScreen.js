@@ -3,53 +3,37 @@ import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import {InputField, Button} from '../components';
 import {useCustomFonts} from "../utils";
 
-const RegisterScreen = ({navigation}) => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+const AccountScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    const handleRegister = async () => {
-        // Add check for password confirmation before sending request
-        if (password !== confirmPassword) {
-            setErrorMessage('Passwords do not match');
-            return;
-        }
-
+    const handleLogin = async () => {
         try {
-            const response = await fetch('http://localhost:8000/auth/register', {
+            const response = await fetch('http://localhost:8000/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    first_name: firstName,
-                    last_name: lastName,
-                    email: email,
-                    password: password,
-                    confirm_password: confirmPassword
-                }),
+                body: JSON.stringify({email, password}),
             });
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Registration successful:', data);
+                console.log('Login successful:', data);
+                // TODO: Here navigate to next screen
             } else {
-                const errorData = await response.json();
-                setErrorMessage(errorData.detail || 'Registration failed');
+                setErrorMessage('Invalid credentials');
             }
         } catch (error) {
-            console.error('Registration error:', error);
-            setErrorMessage('An error occurred during registration');
+            console.error('Login error:', error);
+            setErrorMessage('An error occurred during login');
         }
     };
 
-    const handleLoginNavigation = () => {
-        navigation.navigate('Login');
+    const handleRegisterNavigation = () => {
+        navigation.navigate('Register');
     };
-
 
     const appIsReady = useCustomFonts();
 
@@ -62,18 +46,9 @@ const RegisterScreen = ({navigation}) => {
                 // source={{ uri: 'https://your-image-url.jpg' }} // For remote images
                 style={styles.backgroundImage}
             >
-                <Text style={styles.loginTitle}>REGISTER</Text>
+                <Text style={styles.loginTitle}>LOGIN</Text>
                 <View style={styles.container}>
-                    <InputField
-                        placeholder="First Name"
-                        value={firstName}
-                        onChangeText={setFirstName}
-                    />
-                    <InputField
-                        placeholder="Last Name"
-                        value={lastName}
-                        onChangeText={setLastName}
-                    />
+
                     <InputField
                         placeholder="Email"
                         value={email}
@@ -85,31 +60,26 @@ const RegisterScreen = ({navigation}) => {
                         onChangeText={setPassword}
                         secureTextEntry
                     />
-                    <InputField
-                        placeholder="Confirm Password"
-                        value={confirmPassword}
-                        onChangeText={setConfirmPassword}
-                        secureTextEntry
-                    />
-                    <Button title="Register" onPress={handleRegister}/>
-                    <Button title="Go to Login" onPress={handleLoginNavigation}/>
+                    <Button title="Login" onPress={handleLogin}/>
+                    <Button title="Go to Register" onPress={handleRegisterNavigation}/>
                     {errorMessage ? <Text>{errorMessage}</Text> : null}
                 </View>
             </ImageBackground>
         );
     }
 };
+
 const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
-        resizeMode: 'cover',
+        resizeMode: 'cover', // or 'stretch'
     },
     container: {
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingTop: 80,
-        backgroundColor: 'transparent',
+        backgroundColor: 'transparent', // Make sure this is transparent
     },
     loginTitle: {
         width: 240,
@@ -126,4 +96,4 @@ const styles = StyleSheet.create({
         marginTop: 50,
     }
 });
-export default RegisterScreen;
+export default AccountScreen;

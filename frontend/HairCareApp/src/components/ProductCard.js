@@ -22,7 +22,8 @@ const ProductCard = ({productName, price, description}) => {
                 <Text style={styles.productName}>{productName}</Text>
                 <Text style={styles.description}>{description}</Text>
                 <Text style={styles.price}>{price}</Text>
-                <CustomButton title="GO TO PRODUCT" onPress={handleProductClick} styleType={'productCard'} style={styles.productCardButton}  />
+                <CustomButton title="GO TO PRODUCT" onPress={handleProductClick} styleType={'productCard'}
+                              style={styles.productCardButton}/>
                 <Text style={styles.marketPrice}>Market price</Text>
             </View>
         );
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     productName: {
         color: '#615143',
         fontSize: 12,
-        fontFamily: 'Abel',
+        fontFamily: 'Abel_400Regular',
         fontWeight: '400',
         textTransform: 'uppercase',
         letterSpacing: 1.20,
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     description: {
         color: '#615143',
         fontSize: 10,
-        fontFamily: 'Abel',
+        fontFamily: 'Abel_400Regular',
         fontWeight: '400',
         letterSpacing: 1,
         position: 'absolute',
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     price: {
         color: '#615143',
         fontSize: 13,
-        fontFamily: 'Abel',
+        fontFamily: 'Abel_400Regular',
         fontWeight: '400',
         textTransform: 'uppercase',
         letterSpacing: 1.30,
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     marketPrice: {
         color: '#615143',
         fontSize: 8,
-        fontFamily: 'Abel',
+        fontFamily: 'Abel_400Regular',
         fontWeight: '400',
         letterSpacing: 0.80,
         position: 'absolute',
@@ -82,9 +83,8 @@ const styles = StyleSheet.create({
     },
     productCardButton: {
         position: 'absolute',
-        bottom: 10, // Adjust as needed
-        right: 10,  // Adjust as needed
-        // Other styling as needed for the button
+        bottom: 10,
+        right: 10,
     },
 });
 

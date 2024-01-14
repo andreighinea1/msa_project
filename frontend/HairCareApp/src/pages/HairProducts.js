@@ -3,16 +3,15 @@ import {View, Text, StyleSheet, FlatList, ImageBackground} from 'react-native';
 import ProductCard from '../components/ProductCard';
 import BottomNavigationBar from "../components/BottomNavigationBar"; // Ensure this path is correct
 
-const HairProductsScreen = () => {
-    // Sample data - replace with your actual product data
-    const ItemSeparator = () => <View style={{ height: 20 }} />; // Adjust height for desired spacing
+const HairProductsScreen = ({navigation}) => {
+    const ItemSeparator = () => <View style={{height: 20}}/>; // Adjust height for desired spacing
 
     const products = [
-        { id: '1', name: 'Product 1', price: '$20', description: 'Description of product 1' },
-        { id: '2', name: 'Product 2', price: '$30', description: 'Description of product 2' },
+        {id: '1', name: 'Product 1', price: '$20', description: 'Description of product 1'},
+        {id: '2', name: 'Product 2', price: '$30', description: 'Description of product 2'},
     ];
 
-    const renderProduct = ({ item }) => {
+    const renderProduct = ({item}) => {
         return (
             <ProductCard
                 productName={item.name}
@@ -27,17 +26,17 @@ const HairProductsScreen = () => {
             source={require('../utils/pictures/background-pages.png')} // replace with your local image
             style={styles.backgroundImage}
         >
-        <View style={styles.container}>
-            <Text style={styles.title}>Our Products</Text>
-            <FlatList
-                data={products}
-                renderItem={renderProduct}
-                keyExtractor={item => item.id}
-                contentContainerStyle={styles.listContainer}
-                ItemSeparatorComponent={ItemSeparator} // Add this line
-            />
-        </View>
-            <BottomNavigationBar navigation={navigation} />
+            <View style={styles.container}>
+                <Text style={styles.title}>Our Products</Text>
+                <FlatList
+                    data={products}
+                    renderItem={renderProduct}
+                    keyExtractor={item => item.id}
+                    contentContainerStyle={styles.listContainer}
+                    ItemSeparatorComponent={ItemSeparator}
+                />
+            </View>
+            <BottomNavigationBar navigation={navigation}/>
         </ImageBackground>
     );
 };
