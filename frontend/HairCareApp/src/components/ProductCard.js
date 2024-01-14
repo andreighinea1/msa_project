@@ -22,7 +22,7 @@ const ProductCard = ({productName, price, description}) => {
                 <Text style={styles.productName}>{productName}</Text>
                 <Text style={styles.description}>{description}</Text>
                 <Text style={styles.price}>{price}</Text>
-                <CustomButton title="GO TO PRODUCT" onPress={handleProductClick} styleType="productCard"/>
+                <CustomButton title="GO TO PRODUCT" onPress={handleProductClick} styleType={'productCard'} style={styles.productCardButton}  />
                 <Text style={styles.marketPrice}>Market price</Text>
             </View>
         );
@@ -35,9 +35,10 @@ const styles = StyleSheet.create({
         height: cardHeight,
         backgroundColor: 'white',
         borderRadius: 20,
+        position: 'relative',
     },
     productName: {
-        color: '#020953',
+        color: '#615143',
         fontSize: 12,
         fontFamily: 'Abel',
         fontWeight: '400',
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
         left: '4%',
     },
     description: {
-        color: '#020953',
+        color: '#615143',
         fontSize: 10,
         fontFamily: 'Abel',
         fontWeight: '400',
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
         left: '4%',
     },
     price: {
-        color: '#020953',
+        color: '#615143',
         fontSize: 13,
         fontFamily: 'Abel',
         fontWeight: '400',
@@ -68,27 +69,9 @@ const styles = StyleSheet.create({
         top: '79%',
         left: '4%',
     },
-    button: {
-        width: '35%',
-        height: '14%',
-        position: 'absolute',
-        top: '76%',
-        left: '54%',
-        backgroundColor: '#020953',
-        borderRadius: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: '#F9F5F0',
-        fontSize: 9,
-        fontFamily: 'Abel',
-        fontWeight: '400',
-        textTransform: 'uppercase',
-        letterSpacing: 0.90,
-    },
+
     marketPrice: {
-        color: '#020953',
+        color: '#615143',
         fontSize: 8,
         fontFamily: 'Abel',
         fontWeight: '400',
@@ -96,6 +79,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: '67%',
         left: '4%',
+    },
+    productCardButton: {
+        position: 'absolute',
+        bottom: 10, // Adjust as needed
+        right: 10,  // Adjust as needed
+        // Other styling as needed for the button
     },
 });
 
