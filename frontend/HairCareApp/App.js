@@ -33,11 +33,7 @@ function App() {
     return (
         <NavigationContainer>
             {isAuthenticated ? (
-                <Stack.Navigator initialRouteName="WishList">
-                    <Stack.Screen
-                        name="HairType"
-                        component={HairQuizScreen}
-                        options={{headerShown: false}}/>
+                <Stack.Navigator initialRouteName="HairProduct">
                     <Stack.Screen
                         name="HairProduct"
                         component={HairProductsScreen}
@@ -45,6 +41,10 @@ function App() {
                     <Stack.Screen
                         name="WishList"
                         component={WishlistScreen}
+                        options={{headerShown: false}}/>
+                    <Stack.Screen
+                        name="HairQuiz"
+                        component={HairQuizScreen}
                         options={{headerShown: false}}/>
                     <Stack.Screen
                         name="NavBar"
