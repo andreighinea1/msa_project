@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import {InputField, Button} from '../components';
-import {useCustomFonts} from "../utils";
+import {BASE_URL, useCustomFonts} from "../utils";
 
 const RegisterScreen = ({navigation}) => {
     const [firstName, setFirstName] = useState('');
@@ -19,7 +19,7 @@ const RegisterScreen = ({navigation}) => {
         }
 
         try {
-            const response = await fetch('http://localhost:8000/auth/register', {
+            const response = await fetch(`${BASE_URL}/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

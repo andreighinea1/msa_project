@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, ImageBackground} from 'react-native';
-import {InputField, Button} from '../components';
-import {useCustomFonts} from "../utils";
+import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {Button, InputField} from '../components';
+import {useCustomFonts, storeToken, BASE_URL} from "../utils";
 
 const LoginScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
@@ -10,7 +10,7 @@ const LoginScreen = ({navigation}) => {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('http://localhost:8000/auth/login', {
+            const response = await fetch(`${BASE_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,6 +22,7 @@ const LoginScreen = ({navigation}) => {
                 const data = await response.json();
                 console.log('Login successful:', data);
 
+                await storeToken(data["access_token"]);
             } else {
                 setErrorMessage('Invalid credentials');
             }
