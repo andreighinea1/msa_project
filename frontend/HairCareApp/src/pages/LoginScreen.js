@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
 import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import {Button, InputField} from '../components';
-import {useCustomFonts, storeToken, BASE_URL} from "../utils";
+import {useCustomFonts, storeToken, BASE_URL, formatErrorMessage} from "../utils";
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({navigation, onLoginSuccess}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleLogin = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/auth/login`, {
+            const response = await fetch(`${BASE_URL}/user/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,8 +23,10 @@ const LoginScreen = ({navigation}) => {
                 console.log('Login successful:', data);
 
                 await storeToken(data["access_token"]);
+                onLoginSuccess(); // Call the callback function to update the state in App.js
             } else {
-                setErrorMessage('Invalid credentials');
+                const errorData = await response.json();
+                setErrorMessage(formatErrorMessage(errorData.detail, "Invalid credentials"));
             }
         } catch (error) {
             console.error('Login error:', error);
@@ -63,7 +65,7 @@ const LoginScreen = ({navigation}) => {
                     />
                     <Button title="Login" onPress={handleLogin}/>
                     <Button title="Go to Register" onPress={handleRegisterNavigation}/>
-                    {errorMessage ? <Text>{errorMessage}</Text> : null}
+                    {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
                 </View>
             </ImageBackground>
         );
@@ -95,6 +97,16 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
         alignSelf: 'center',
         marginTop: 50,
-    }
+    },
+    errorMessage: {
+        fontSize: 16,
+        color: 'red',
+        backgroundColor: 'white',
+        padding: 10,
+        borderRadius: 5,
+        marginTop: 10,
+        textAlign: 'center',
+        width: '80%',
+    },
 });
 export default LoginScreen;

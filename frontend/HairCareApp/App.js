@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {StyleSheet} from 'react-native';
+import {AppState, StyleSheet} from 'react-native';
 import {LoginScreen, RegisterScreen, HairQuizScreen, HairProductsScreen, WishlistScreen} from "./src/pages";
 import BottomNavigationBar from "./src/components/BottomNavigationBar";
-import {getToken} from "./src/utils";
+import {isTokenValid, storeToken} from "./src/utils";
 
 
 const Stack = createNativeStackNavigator();
@@ -13,14 +13,22 @@ function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        const checkToken = async () => {
-            const token = await getToken();
-            if (token) {
-                setIsAuthenticated(true);
+        const subscription = AppState.addEventListener('change', (nextAppState) => {
+            if (nextAppState === 'active') {
+                checkToken();
             }
+        });
+
+        return () => {
+            subscription.remove();
         };
-        checkToken();
     }, []);
+
+    const checkToken = async () => {
+        const tokenValid = await isTokenValid();
+        console.log("Token valid: " + tokenValid);
+        setIsAuthenticated(tokenValid);
+    };
 
     return (
         <NavigationContainer>
@@ -47,7 +55,8 @@ function App() {
                 <Stack.Navigator initialRouteName="Login">
                     <Stack.Screen
                         name="Login"
-                        component={LoginScreen}
+                        // component={LoginScreen}
+                        children={() => <LoginScreen onLoginSuccess={() => setIsAuthenticated(true)}/>}
                         options={{headerShown: false}}/>
                     <Stack.Screen
                         name="Register"

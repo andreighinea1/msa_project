@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import {InputField, Button} from '../components';
-import {BASE_URL, useCustomFonts} from "../utils";
+import {BASE_URL, useCustomFonts, formatErrorMessage} from "../utils";
 
 const RegisterScreen = ({navigation}) => {
     const [firstName, setFirstName] = useState('');
@@ -12,6 +12,8 @@ const RegisterScreen = ({navigation}) => {
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleRegister = async () => {
+        setErrorMessage(null);
+
         // Add check for password confirmation before sending request
         if (password !== confirmPassword) {
             setErrorMessage('Passwords do not match');
@@ -19,7 +21,7 @@ const RegisterScreen = ({navigation}) => {
         }
 
         try {
-            const response = await fetch(`${BASE_URL}/auth/register`, {
+            const response = await fetch(`${BASE_URL}/user/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,9 +38,10 @@ const RegisterScreen = ({navigation}) => {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Registration successful:', data);
+                navigation.navigate('Login');
             } else {
                 const errorData = await response.json();
-                setErrorMessage(errorData.detail || 'Registration failed');
+                setErrorMessage(formatErrorMessage(errorData.detail, "Registration Failed"));
             }
         } catch (error) {
             console.error('Registration error:', error);
@@ -93,7 +96,7 @@ const RegisterScreen = ({navigation}) => {
                     />
                     <Button title="Register" onPress={handleRegister}/>
                     <Button title="Go to Login" onPress={handleLoginNavigation}/>
-                    {errorMessage ? <Text>{errorMessage}</Text> : null}
+                    {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
                 </View>
             </ImageBackground>
         );
@@ -124,6 +127,16 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
         alignSelf: 'center',
         marginTop: 50,
-    }
+    },
+    errorMessage: {
+        fontSize: 16,
+        color: 'red',
+        backgroundColor: 'white',
+        padding: 10,
+        borderRadius: 5,
+        marginTop: 10,
+        textAlign: 'center',
+        width: '80%',
+    },
 });
 export default RegisterScreen;
