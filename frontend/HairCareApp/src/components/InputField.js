@@ -21,8 +21,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         width: 230,
         height: 34,
+        alignSelf: 'center', // Center the input field container
         flexDirection: 'column',
         justifyContent: 'center',
+        marginVertical: 5, // Adds space above and below the input field
     },
     input: {
         color: '#362A20',
