@@ -1,12 +1,19 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import {useCustomFonts} from "../utils";
 
 const CustomButton = ({ title, onPress, styleType = 'default' }) => {
-    return (
-        <TouchableOpacity style={[styles.button, styles[styleType].button]} onPress={onPress}>
-            <Text style={[styles.text, styles[styleType].text]}>{title}</Text>
-        </TouchableOpacity>
-    );
+    const appIsReady = useCustomFonts();
+
+    if (!appIsReady) {
+        return null; // Or a custom loader
+    } else {
+        return (
+            <TouchableOpacity style={[styles.button, styles[styleType].button]} onPress={onPress}>
+                <Text style={[styles.text, styles[styleType].text]}>{title}</Text>
+            </TouchableOpacity>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
@@ -46,7 +53,7 @@ const styles = StyleSheet.create({
         text: {
             color: '#F9F5F0',
             fontSize: 9,
-            fontFamily: 'Abel',
+            fontFamily: 'Abel_400Regular',
             fontWeight: '400',
             textTransform: 'uppercase',
             letterSpacing: 0.90,

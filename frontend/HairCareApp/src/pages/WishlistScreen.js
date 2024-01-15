@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, FlatList, ImageBackground} from 'react-native';
 import ProductCard from '../components/ProductCard';
 import BottomNavigationBar from "../components/BottomNavigationBar"; // Ensure this path is correct
 
-const HairProductsScreen = () => {
+const WishlistScreen = ({navigation}) => {
     // Sample data - replace with your actual product data
     const ItemSeparator = () => <View style={{ height: 20 }} />; // Adjust height for desired spacing
 
@@ -27,16 +27,16 @@ const HairProductsScreen = () => {
             source={require('../utils/pictures/background-pages.png')} // replace with your local image
             style={styles.backgroundImage}
         >
-        <View style={styles.container}>
-            <Text style={styles.title}>Our Products</Text>
-            <FlatList
-                data={products}
-                renderItem={renderProduct}
-                keyExtractor={item => item.id}
-                contentContainerStyle={styles.listContainer}
-                ItemSeparatorComponent={ItemSeparator} // Add this line
-            />
-        </View>
+            <View style={styles.container}>
+                <Text style={styles.title}>Our Products</Text>
+                <FlatList
+                    data={products}
+                    renderItem={renderProduct}
+                    keyExtractor={item => item.id}
+                    contentContainerStyle={styles.listContainer}
+                    ItemSeparatorComponent={ItemSeparator} // Add this line
+                />
+            </View>
             <BottomNavigationBar navigation={navigation} />
         </ImageBackground>
     );
@@ -65,4 +65,4 @@ const styles = StyleSheet.create({
     // ... Add any other styles you need
 });
 
-export default HairProductsScreen;
+export default WishlistScreen;

@@ -15,9 +15,9 @@ const BottomNavigationBar = ({ navigation }) => {
                 <Text style={styles.navLabel}>WISHLIST</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('Account')}>
+            <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HairQuiz')}>
                 <Icon name="person-outline" size={30} color="#362A20" />
-                <Text style={styles.navLabel}>ACCOUNT</Text>
+                <Text style={styles.navLabel}>HAIR QUIZ</Text>
             </TouchableOpacity>
         </View>
     );
