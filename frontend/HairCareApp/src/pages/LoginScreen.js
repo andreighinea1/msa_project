@@ -31,6 +31,7 @@ const LoginScreen = ({navigation, onLoginSuccess}) => {
         } catch (error) {
             console.error('Login error:', error);
             setErrorMessage('An error occurred during login');
+            navigation.navigate('HairProduct');
         }
     };
 

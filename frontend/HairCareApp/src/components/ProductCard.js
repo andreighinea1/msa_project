@@ -2,16 +2,17 @@ import React from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {useCustomFonts} from '../utils';
 import CustomButton from "./Button";
+import { Linking } from 'react-native';
 
 const {width} = Dimensions.get('window');
 const cardWidth = width * 0.85; // 85% of the screen width
 const cardHeight = cardWidth * 0.42; // Maintain aspect ratio
 
-const ProductCard = ({productName, price, description}) => {
+const ProductCard = ({productName, price, description, url}) => {
     const appIsReady = useCustomFonts();
 
     const handleProductClick = () => {
-        console.log("Product clicked");  // TODO: Implement
+        Linking.openURL(url).catch(err => console.error("Failed to open URL:", err));
     };
 
     if (!appIsReady) {

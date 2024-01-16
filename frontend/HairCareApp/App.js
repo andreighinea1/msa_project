@@ -10,7 +10,7 @@ import {isTokenValid, storeToken} from "./src/utils";
 const Stack = createNativeStackNavigator();
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     useEffect(() => {
         const subscription = AppState.addEventListener('change', (nextAppState) => {

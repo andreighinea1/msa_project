@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, ImageBackground, Dimensions} from 'react-native';
 import BottomNavigationBar from "../components/BottomNavigationBar";
 import CustomButton from "../components/Button";
 import {useCustomFonts} from "../utils";
@@ -10,28 +10,16 @@ const HairQuizScreen = ({ navigation }) => {
         texture: '',
         thickness: '',
         scalp: '',
-        concerns: [],
+        concerns: '',
     });
 
     const handleSelect = (category, option) => {
         setSelections(prevSelections => {
             let updatedSelections = {};
-
-            if (category === 'concerns') {
-                // Toggle selection for 'concerns' since multiple options are allowed
-                updatedSelections = {
-                    ...prevSelections,
-                    [category]: prevSelections[category].includes(option) ?
-                        prevSelections[category].filter(currentOption => currentOption !== option) :
-                        [...prevSelections[category], option].slice(0, 2), // Max 2 options
-                };
-            } else {
-                // Single selection for other categories
-                updatedSelections = {
+            updatedSelections = {
                     ...prevSelections,
                     [category]: prevSelections[category] === option ? '' : option,
-                };
-            }
+            };
 
             console.log(category, updatedSelections);
             return updatedSelections;
@@ -102,6 +90,9 @@ const HairQuizScreen = ({ navigation }) => {
     }
 };
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
@@ -109,6 +100,8 @@ const styles = StyleSheet.create({
     },
     contentWrapper: {
         flex: 1,
+        width: windowWidth,
+        height: windowHeight,
     },
     titleContainer: {
         // Styles for the title container
