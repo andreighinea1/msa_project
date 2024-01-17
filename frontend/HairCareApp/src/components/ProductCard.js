@@ -26,10 +26,6 @@ const ProductCard = ({product_id, name, price, description, url}) => {
         {
             // it will delete that product from wishlist database
         }
-
-
-
-
     };
 
     const handleProductClick = () => {

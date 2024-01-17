@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         paddingHorizontal: 10,
-
+        paddingBottom: 50,
     },
     menuContainer: {
         flexDirection: 'row', // Aligns children in a row
