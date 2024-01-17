@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, FlatList, ImageBackground, Dimensions} from 'react-native';
 import ProductCard from '../components/ProductCard';
 import BottomNavigationBar from "../components/BottomNavigationBar";
-import {getJwtToken, BASE_URL} from "../utils";
+import {getJwtToken, BASE_URL, useCustomFonts} from "../utils";
 
 const WishlistScreen = ({navigation}) => {
     const [wishlistItems, setWishlistItems] = useState([]);
@@ -34,24 +34,30 @@ const WishlistScreen = ({navigation}) => {
 
     const ItemSeparator = () => <View style={{height: 20}}/>;
 
-    return (
-        <ImageBackground
-            source={require('../utils/pictures/background-pages.png')}
-            style={styles.backgroundImage}
-        >
-            <View style={styles.container}>
-                <Text style={styles.title}>Wishlist</Text>
-                <FlatList
-                    data={wishlistItems}
-                    renderItem={({item}) => <ProductCard {...item} />}
-                    keyExtractor={item => item.product_id.toString()}
-                    contentContainerStyle={styles.listContainer}
-                    ItemSeparatorComponent={ItemSeparator}
-                />
-            </View>
-            <BottomNavigationBar navigation={navigation}/>
-        </ImageBackground>
-    );
+    const appIsReady = useCustomFonts();
+
+    if (!appIsReady) {
+        return null; // Or a custom loader
+    } else {
+        return (
+            <ImageBackground
+                source={require('../utils/pictures/background-pages.png')}
+                style={styles.backgroundImage}
+            >
+                <View style={styles.container}>
+                    <Text style={styles.title}>Wishlist</Text>
+                    <FlatList
+                        data={wishlistItems}
+                        renderItem={({item}) => <ProductCard {...item} />}
+                        keyExtractor={item => item.product_id.toString()}
+                        contentContainerStyle={styles.listContainer}
+                        ItemSeparatorComponent={ItemSeparator}
+                    />
+                </View>
+                <BottomNavigationBar navigation={navigation}/>
+            </ImageBackground>
+        );
+    }
 };
 
 const windowWidth = Dimensions.get('window').width;

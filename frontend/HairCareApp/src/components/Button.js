@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 import {useCustomFonts} from "../utils";
 
 const CustomButton = ({title, onPress, styleType = 'default', isSelected = false}) => {
@@ -58,11 +58,11 @@ const styles = StyleSheet.create({
     productCard: {
         button: {
             width: '35%',
-            height: '14%',
+            height: '25%',
             backgroundColor: '#615143',
             borderRadius: 40,
             position: 'absolute', // Position the button absolutely
-            bottom: 10,          // Distance from the bottom of the parent container
+            bottom: 5,          // Distance from the bottom of the parent container
             right: 10,           // Distance from the right of the parent container
         },
         text: {
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
             borderRadius: 40,
             // position: 'absolute', // Position the button absolutely
             bottom: 10,          // Distance from the bottom of the parent container
-            top:50,
+            top: 50,
             marginHorizontal: 5,
 
         },

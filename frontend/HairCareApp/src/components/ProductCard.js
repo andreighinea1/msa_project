@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'; // Replace MaterialIco
 
 const {width} = Dimensions.get('window');
 const cardWidth = width * 0.85; // 85% of the screen width
-const cardHeight = cardWidth * 0.42; // Maintain aspect ratio
+// const cardHeight = cardWidth * 0.42; // Maintain aspect ratio
 
 const ProductCard = ({product_id, name, price, description, url}) => {
     const appIsReady = useCustomFonts();
@@ -77,7 +77,7 @@ const ProductCard = ({product_id, name, price, description, url}) => {
                 <View style={styles.contentContainer}>
                     <Text style={styles.productName}>{name}</Text>
                     <Text style={styles.description}>{description}</Text>
-                    <View>
+                    <View style={styles.priceContainer}>
                         <Text style={styles.marketPrice}>Market price</Text>
                         <Text style={styles.price}>{price}</Text>
                     </View>
@@ -103,17 +103,20 @@ const ProductCard = ({product_id, name, price, description, url}) => {
 const styles = StyleSheet.create({
     cardContainer: {
         width: cardWidth,
-        height: cardHeight,
         backgroundColor: 'white',
         borderRadius: 20,
-        padding: 10, // Add some padding inside the card
-        flexDirection: 'column', // Arrange children in a column
-        justifyContent: 'space-between', // Distribute children evenly
+        padding: 10,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        marginBottom: 1, // Add bottom margin for spacing between cards
     },
     contentContainer: {
-        flex: 1, // Take up all available space
-        justifyContent: 'space-around', // Distribute children evenly in the vertical direction
         paddingRight: '12%',
+        marginTop: 2,
+        marginBottom: 2,
+    },
+    priceContainer: {
+        marginTop: 10, // Add space above the price section
     },
     productName: {
         color: '#615143',
@@ -129,6 +132,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Abel_400Regular',
         fontWeight: '400',
         letterSpacing: 1,
+        marginTop: 4,
+        marginBottom: 5,
     },
     price: {
         color: '#615143',
@@ -152,8 +157,8 @@ const styles = StyleSheet.create({
     },
     favoriteButton: {
         position: 'absolute',
-        top: 20,
-        right: 20,
+        top: 15,
+        right: 15,
         zIndex: 1,
     },
 });

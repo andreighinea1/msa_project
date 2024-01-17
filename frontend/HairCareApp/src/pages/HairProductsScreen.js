@@ -4,7 +4,7 @@ import ProductCard from '../components/ProductCard';
 import BottomNavigationBar from "../components/BottomNavigationBar"; // Ensure this path is correct
 import {Dimensions} from 'react-native';
 import CustomButton from "../components/Button";
-import {BASE_URL, formatErrorMessage, getJwtToken} from "../utils";
+import {BASE_URL, formatErrorMessage, getJwtToken, useCustomFonts} from "../utils";
 import {useFocusEffect} from "@react-navigation/native";
 
 const HairProductsScreen = ({navigation}) => {
@@ -54,37 +54,43 @@ const HairProductsScreen = ({navigation}) => {
         console.log("Selected Button:", productType); // Debugging
     };
 
-    return (
-        <ImageBackground
-            source={require('../utils/pictures/background-pages.png')}
-            style={styles.backgroundImage}
-        >
+    const appIsReady = useCustomFonts();
 
-            <View style={styles.container}>
-                <Text style={styles.title}>Our Products</Text>
-                <View style={styles.menuContainer}>
-                    {['Shampoo', 'Conditioner', 'Styling'].map((productType) => (
-                        <CustomButton
-                            key={productType}
-                            title={productType}
-                            styleType="productMenu"
-                            isSelected={selectedButton === productType}
-                            onPress={() => handleProductSelection(productType)}
-                        />
-                    ))}
+    if (!appIsReady) {
+        return null; // Or a custom loader
+    } else {
+        return (
+            <ImageBackground
+                source={require('../utils/pictures/background-pages.png')}
+                style={styles.backgroundImage}
+            >
+
+                <View style={styles.container}>
+                    <Text style={styles.title}>Our Products</Text>
+                    <View style={styles.menuContainer}>
+                        {['Shampoo', 'Conditioner', 'Styling'].map((productType) => (
+                            <CustomButton
+                                key={productType}
+                                title={productType}
+                                styleType="productMenu"
+                                isSelected={selectedButton === productType}
+                                onPress={() => handleProductSelection(productType)}
+                            />
+                        ))}
+                    </View>
+
+                    <FlatList
+                        data={products}
+                        renderItem={({item}) => <ProductCard {...item} />}
+                        keyExtractor={item => item.product_id}
+                        contentContainerStyle={styles.listContainer}
+                        ItemSeparatorComponent={ItemSeparator}
+                    />
                 </View>
-
-                <FlatList
-                    data={products}
-                    renderItem={({item}) => <ProductCard {...item} />}
-                    keyExtractor={item => item.product_id}
-                    contentContainerStyle={styles.listContainer}
-                    ItemSeparatorComponent={ItemSeparator}
-                />
-            </View>
-            <BottomNavigationBar navigation={navigation}/>
-        </ImageBackground>
-    );
+                <BottomNavigationBar navigation={navigation}/>
+            </ImageBackground>
+        );
+    }
 };
 
 const windowWidth = Dimensions.get('window').width;
