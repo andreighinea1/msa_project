@@ -55,8 +55,11 @@ function App() {
                 <Stack.Navigator initialRouteName="Login">
                     <Stack.Screen
                         name="Login"
-                        children={() => <LoginScreen onLoginSuccess={() => setIsAuthenticated(true)}/>}
-                        options={{headerShown: false}}/>
+                        options={{headerShown: false}}>
+                        {props =>
+                            <LoginScreen {...props} onLoginSuccess={() => setIsAuthenticated(true)}/>
+                        }
+                    </Stack.Screen>
                     <Stack.Screen
                         name="Register"
                         component={RegisterScreen}
