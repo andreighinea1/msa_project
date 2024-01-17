@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {jwtDecode} from 'jwt-decode';
+import {decode as atob} from 'base-64';
 
 export const storeToken = async (token) => {
     try {
@@ -29,10 +29,11 @@ const getToken = async () => {
 
 const isTokenExpired = (token) => {
     try {
-        console.log(token);
-        const decoded = jwtDecode(token);
-        const currentTime = Date.now() / 1000; // Get current time in seconds
-        return decoded.exp < currentTime;
+        const [, payload] = token.split('.');
+        const decodedPayload = atob(payload);
+        const {exp} = JSON.parse(decodedPayload);
+        const currentTime = Date.now() / 1000;
+        return exp < currentTime;
     } catch (error) {
         console.error("Token decoding error:", error);
         return true; // Assume expired if there's an error
