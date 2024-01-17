@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         button: {
             width: 100,
             height: 30,
-            backgroundColor: '#C9B8A1',
+            // backgroundColor: '#C9B8A1',
             borderRadius: 40,
             // position: 'absolute', // Position the button absolutely
             bottom: 10,          // Distance from the bottom of the parent container
