@@ -14,6 +14,9 @@ class WishlistRepository:
         self.dal.add_to_wishlist(user_id, product_id, wishlist_id)
         return WishlistProductDTO(wishlist_id=wishlist_id, user_id=user_id, product_id=product_id)
 
+    def remove_from_wishlist(self, user_id: str, product_id: str):
+        return self.dal.remove_from_wishlist(user_id, product_id)
+
     def get_wishlist_for_user(self, user_id: str) -> List[WishlistProductDTO]:
         wishlist_items = self.dal.get_wishlisted_products(user_id)
         return [WishlistProductDTO(**item) for item in wishlist_items]

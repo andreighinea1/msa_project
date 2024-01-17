@@ -9,3 +9,7 @@ class WishlistProductDTO(BaseModel):
 
 class WishlistProductAddDTO(BaseModel):
     product_id: str = Field(..., description="The unique identifier for the product to be wishlisted")
+
+
+class WishlistProductRemoveDTO(BaseModel):
+    product_id: str = Field(..., description="The unique identifier for the product to be un-wishlisted")

@@ -10,7 +10,7 @@ export const storeToken = async (token) => {
 };
 
 export const isTokenValid = async () => {
-    const token = await getToken();
+    const token = await getJwtToken();
     if (!token || isTokenExpired(token)) {
         await removeToken();
         return false;
@@ -18,7 +18,7 @@ export const isTokenValid = async () => {
     return true;
 }
 
-const getToken = async () => {
+export const getJwtToken = async () => {
     try {
         return await AsyncStorage.getItem('userToken');
     } catch (error) {

@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 
 from app.dependencies import get_current_user_id
-from app.dto.wishlist_dto import WishlistProductAddDTO, WishlistProductDTO
+from app.dto.wishlist_dto import WishlistProductAddDTO, WishlistProductDTO, WishlistProductRemoveDTO
 from app.services.wishlist_service import WishlistService
 
 router = APIRouter()
@@ -18,6 +18,18 @@ def wishlist_product(
     try:
         wishlist_item = wishlist_service.wishlist_product(current_user_id, wishlist_data.product_id)
         return wishlist_item
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/remove")
+def wishlist_product(
+        wishlist_data: WishlistProductRemoveDTO,
+        current_user_id: str = Depends(get_current_user_id),  # In Front-End we'll send the JWT here
+):
+    try:
+        wishlist_service.un_wishlist_product(current_user_id, wishlist_data.product_id)
+        return
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

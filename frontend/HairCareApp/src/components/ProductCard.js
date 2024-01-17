@@ -27,6 +27,9 @@ const ProductCard = ({product_id, name, price, description, url}) => {
             // it will delete that product from wishlist database
         }
 
+
+
+
     };
 
     const handleProductClick = () => {
@@ -74,6 +77,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: '10%',
         left: '4%',
+        right: '15%',
     },
     description: {
         color: '#615143',

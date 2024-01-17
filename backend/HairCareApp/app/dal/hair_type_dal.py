@@ -19,7 +19,7 @@ class HairTypeDAL:
         return response['Items'][0] if response['Items'] else None
 
     def update_user_hair_type(self, user_id: str, hair_type_data: HairTypeDTO):
-        logging.info(f"Updating hair type for user ID: {user_id}")
+        logging.info(f"Updating hair type for user ID: {user_id}, hair_type_data: {hair_type_data}")
 
         self.table.update_item(
             Key={'user_id': user_id},

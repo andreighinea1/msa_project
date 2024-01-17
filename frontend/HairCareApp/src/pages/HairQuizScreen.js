@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, ImageBackground, Dimensions} from 'react-native';
 import BottomNavigationBar from "../components/BottomNavigationBar";
 import CustomButton from "../components/Button";
-import {useCustomFonts} from "../utils";
+import {BASE_URL, getJwtToken, useCustomFonts} from "../utils";
+import { useFocusEffect } from '@react-navigation/native';
 
 const HairQuizScreen = ({ navigation }) => {
     const [selections, setSelections] = useState({
         health: '',
         texture: '',
-        thickness: '',
-        scalp: '',
-        concerns: '',
+        strand_thickness: '',
+        scalp_condition: '',
+        hair_concern: '',
     });
 
     const handleSelect = (category, option) => {
@@ -46,12 +47,52 @@ const HairQuizScreen = ({ navigation }) => {
         );
     };
 
-    const handleSave = () => {
-        // Implement save functionality
+    const handleSave = async () => {
+        try {
+            const response = await fetch(`${BASE_URL}/hair-type/update`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${await getJwtToken()}`
+                },
+                body: JSON.stringify(selections),
+            });
+        } catch (error) {
+            console.error('Error saving hair data: ', error);
+        }
+
         console.log('Quiz selections saved:', selections);
-        // Example: navigation.navigate('Results', { selections });
         navigation.navigate('HairProduct');
     };
+
+    const handleGet = async () => {
+        try {
+            const response = await fetch(`${BASE_URL}/hair-type/get`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${await getJwtToken()}`
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Quiz selections retrieved:', data);
+                setSelections(data);
+            } else {
+                // const errorData = await response.json();
+                // setErrorMessage(formatErrorMessage(errorData.detail, "Invalid credentials"));
+            }
+        } catch (error) {
+            console.error('Error retrieving hair data: ', error);
+        }
+    };
+
+    useFocusEffect(
+        React.useCallback(() => {
+            handleGet();
+        }, [])
+    );
 
     const appIsReady = useCustomFonts();
 
@@ -74,11 +115,11 @@ const HairQuizScreen = ({ navigation }) => {
                         <Text style={styles.subtitle}>Texture</Text>
                         {renderOptions('texture', ['straight', 'wavy', 'curly', 'coily'])}
                         <Text style={styles.subtitle}>Strand Thickness</Text>
-                        {renderOptions('thickness', ['fine', 'medium', 'thick'])}
+                        {renderOptions('strand_thickness', ['fine', 'medium', 'thick'])}
                         <Text style={styles.subtitle}>Scalp Condition</Text>
-                        {renderOptions('scalp', ['balanced', 'oily', 'dry'])}
+                        {renderOptions('scalp_condition', ['balanced', 'oily', 'dry'])}
                         <Text style={styles.subtitle}>Primary Concerns</Text>
-                        {renderOptions('concerns', ['volume', 'moisture', 'curl definition', 'damage repair'])}
+                        {renderOptions('hair_concern', ['volume', 'moisture', 'curl definition', 'damage repair'])}
                     </View>
                     <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
                         <Text style={styles.saveButtonText}>Save</Text>
@@ -143,7 +184,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 20,
         borderColor: '#615143', // Border color
-        borderWidth: 1,        // Border thickness, adjust as needed
+        borderWidth: 1,        // Border strand_thickness, adjust as needed
     },
     selectedOptionButton: {
         backgroundColor: 'rgba(97, 81, 67, 0.35)',
