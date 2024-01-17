@@ -74,9 +74,14 @@ const ProductCard = ({product_id, name, price, description, url}) => {
     } else {
         return (
             <View style={styles.cardContainer}>
-                <Text style={styles.productName}>{name}</Text>
-                <Text style={styles.description}>{description}</Text>
-                <Text style={styles.price}>{price}</Text>
+                <View style={styles.contentContainer}>
+                    <Text style={styles.productName}>{name}</Text>
+                    <Text style={styles.description}>{description}</Text>
+                    <View>
+                        <Text style={styles.marketPrice}>Market price</Text>
+                        <Text style={styles.price}>{price}</Text>
+                    </View>
+                </View>
                 <TouchableOpacity onPress={toggleFavorite} style={styles.favoriteButton}>
                     <Icon
                         name={isFavorite ? 'heart' : 'heart-o'}
@@ -84,9 +89,12 @@ const ProductCard = ({product_id, name, price, description, url}) => {
                         color={isFavorite ? 'red' : 'gray'}
                     />
                 </TouchableOpacity>
-                <CustomButton title="GO TO PRODUCT" onPress={handleProductClick} styleType={'productCard'}
-                              style={styles.productCardButton}/>
-                <Text style={styles.marketPrice}>Market price</Text>
+                <CustomButton
+                    title="GO TO PRODUCT"
+                    onPress={handleProductClick}
+                    styleType={'productCard'}
+                    style={styles.productCardButton}
+                />
             </View>
         );
     }
@@ -98,7 +106,14 @@ const styles = StyleSheet.create({
         height: cardHeight,
         backgroundColor: 'white',
         borderRadius: 20,
-        position: 'relative',
+        padding: 10, // Add some padding inside the card
+        flexDirection: 'column', // Arrange children in a column
+        justifyContent: 'space-between', // Distribute children evenly
+    },
+    contentContainer: {
+        flex: 1, // Take up all available space
+        justifyContent: 'space-around', // Distribute children evenly in the vertical direction
+        paddingRight: '12%',
     },
     productName: {
         color: '#615143',
@@ -107,10 +122,6 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         textTransform: 'uppercase',
         letterSpacing: 1.20,
-        position: 'absolute',
-        top: '10%',
-        left: '4%',
-        right: '15%',
     },
     description: {
         color: '#615143',
@@ -118,9 +129,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Abel_400Regular',
         fontWeight: '400',
         letterSpacing: 1,
-        position: 'absolute',
-        top: '24%',
-        left: '4%',
     },
     price: {
         color: '#615143',
@@ -129,20 +137,13 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         textTransform: 'uppercase',
         letterSpacing: 1.30,
-        position: 'absolute',
-        top: '79%',
-        left: '4%',
     },
-
     marketPrice: {
         color: '#615143',
         fontSize: 8,
         fontFamily: 'Abel_400Regular',
         fontWeight: '400',
         letterSpacing: 0.80,
-        position: 'absolute',
-        top: '67%',
-        left: '4%',
     },
     productCardButton: {
         position: 'absolute',
