@@ -10,6 +10,11 @@ class ProductRepository:
     def __init__(self):
         self.dal = ProductDAL()
 
+    def get_products_by_ids(self, product_ids: List[str]) -> List[ProductDTO]:
+        product_data = self.dal.get_products_by_ids(product_ids)
+        product_data = self._convert_products_to_dto(product_data)
+        return [ProductDTO(**data) for data in product_data]
+
     def get_recommended_products(self, hair_profile: dict, product_type: str) -> List[ProductDTO]:
         # Fetch products by type
         product_data = self.dal.get_products_by_type(product_type)

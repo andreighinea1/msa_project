@@ -24,7 +24,6 @@ const HairProductsScreen = ({navigation}) => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log("data:", data);
                 setProducts(data);
             } else {
                 const errorData = await response.json();

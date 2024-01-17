@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
 import {BASE_URL, getJwtToken, useCustomFonts} from '../utils';
 import CustomButton from "./Button";
@@ -14,6 +14,32 @@ const ProductCard = ({product_id, name, price, description, url}) => {
     const appIsReady = useCustomFonts();
 
     const [isFavorite, setIsFavorite] = useState(false);
+
+    useEffect(() => {
+        const checkIfFavorite = async () => {
+            try {
+                const response = await fetch(`${BASE_URL}/wishlist/get`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${await getJwtToken()}`
+                    },
+                    body: JSON.stringify({product_id}),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setIsFavorite(data.is_wishlisted);
+                } else {
+                    console.error('Failed to fetch wishlist status');
+                }
+            } catch (error) {
+                console.error('Error fetching wishlist status: ', error);
+            }
+        };
+
+        checkIfFavorite();
+    }, [product_id]); // Dependency array ensures this effect runs only when product_id changes
 
     const toggleFavorite = async () => {
         const endpoint = isFavorite ? `${BASE_URL}/wishlist/remove` : `${BASE_URL}/wishlist/add`;
