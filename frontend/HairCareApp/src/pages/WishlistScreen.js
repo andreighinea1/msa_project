@@ -28,7 +28,7 @@ const WishlistScreen = ({navigation}) => {
     const renderProduct = ({ item }) => {
         return (
             <ProductCard
-                productName={item.name}
+                name={item.name}
                 price={item.price}
                 description={item.description}
             />

@@ -2,49 +2,32 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, FlatList, ImageBackground} from 'react-native';
 import ProductCard from '../components/ProductCard';
 import BottomNavigationBar from "../components/BottomNavigationBar"; // Ensure this path is correct
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 import CustomButton from "../components/Button";
+import {BASE_URL, formatErrorMessage, storeToken} from "../utils";
 
 const HairProductsScreen = ({navigation}) => {
     const ItemSeparator = () => <View style={{height: 20}}/>; // Adjust height for desired spacing
     const [products, setProducts] = useState([]);
     const [selectedButton, setSelectedButton] = useState('Conditioner');
-    const filteredProducts = selectedButton ? products.filter(product => product.type === selectedButton) : products;
-
-    // const products = [
-    //     {id: '1', productName: 'Shampoo 1', type: 'Shampoo', price: '$20', description: 'Description of Shampoo 1',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //     {id: '2', productName: 'Shampoo 2', type: 'Shampoo', price: '$22', description: 'Description of Shampoo 2',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //     {id: '3', productName: 'Shampoo 3', type: 'Shampoo', price: '$24', description: 'Description of Shampoo 3',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //     {id: '4', productName: 'Shampoo 4', type: 'Shampoo', price: '$26', description: 'Description of Shampoo 4',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //     {id: '7', productName: 'Conditioner 2', type: 'Conditioner', price: '$32', description: 'Description of Conditioner 2',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //     {id: '8', productName: 'Conditioner 3', type: 'Conditioner', price: '$34', description: 'Description of Conditioner 3',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //     {id: '9', productName: 'Conditioner 4', type: 'Conditioner', price: '$36', description: 'Description of Conditioner 4',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //     {id: '10', productName: 'Conditioner 5', type: 'Conditioner', price: '$38', description: 'Description of Conditioner 5',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //     {id: '5', productName: 'Shampoo 5', type: 'Shampoo', price: '$28', description: 'Description of Shampoo 5',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //     {id: '11', productName: 'Styling 1', type: 'Styling', price: '$40', description: 'Description of Styling 1',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //     {id: '12', productName: 'Styling 2', type: 'Styling', price: '$42', description: 'Description of Styling 2',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //     {id: '13', productName: 'Styling 3', type: 'Styling', price: '$44', description: 'Description of Styling 3',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //     {id: '14', productName: 'Styling 4', type: 'Styling', price: '$46', description: 'Description of Styling 4',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //     {id: '15', productName: 'Styling 5', type: 'Styling', price: '$48', description: 'Description of Styling 5',url:'https://olaplex.com/products/no-0-intensive-bond-building-treatment-2021'},
-    //
-    // ];
 
     const fetchProducts = async (productType) => {
         try {
-            const response = await fetch(`http://<your-server-ip>:<port>/view`, {
+            const response = await fetch(`${BASE_URL}/products/view`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ product_type: productType }),
+                body: JSON.stringify({product_type: productType}),
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            if (response.ok) {
+                const data = await response.json();
+                setProducts(data);
+            } else {
+                // const errorData = await response.json();
+                // setErrorMessage(formatErrorMessage(errorData.detail, "Invalid credentials"));
             }
-
-            const data = await response.json();
-            setProducts(data);
         } catch (error) {
             console.error('Error fetching data: ', error);
         }
@@ -61,8 +44,8 @@ const HairProductsScreen = ({navigation}) => {
 
     const getButtonStyles = (buttonType) => {
         return buttonType === selectedButton
-            ? { backgroundColor: '#615143', color: 'white' } // Active state
-            : { backgroundColor: '#C9B8A1', color: 'black' }; // Inactive state
+            ? {backgroundColor: '#615143', color: 'white'} // Active state
+            : {backgroundColor: '#C9B8A1', color: 'black'}; // Inactive state
     };
 
     return (
@@ -96,9 +79,9 @@ const HairProductsScreen = ({navigation}) => {
                 </View>
 
                 <FlatList
-                    data={filteredProducts}
-                    renderItem={({ item }) => <ProductCard {...item} />}
-                    keyExtractor={item => item.id}
+                    data={products}
+                    renderItem={({item}) => <ProductCard {...item} />}
+                    keyExtractor={item => item.product_id}
                     contentContainerStyle={styles.listContainer}
                     ItemSeparatorComponent={ItemSeparator}
                 />
