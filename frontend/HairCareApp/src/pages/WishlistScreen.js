@@ -13,7 +13,7 @@ const WishlistScreen = ({navigation}) => {
 
     const fetchWishlistItems = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/wishlist/view`, {
+            const response = await fetch(`${BASE_URL}/wishlist/view-all`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

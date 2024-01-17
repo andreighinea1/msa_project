@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
-import {useCustomFonts} from '../utils';
+import {BASE_URL, getJwtToken, useCustomFonts} from '../utils';
 import CustomButton from "./Button";
-import { Linking } from 'react-native';
+import {Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Replace MaterialIcons with any other icon set
 
 
@@ -15,16 +15,27 @@ const ProductCard = ({product_id, name, price, description, url}) => {
 
     const [isFavorite, setIsFavorite] = useState(false);
 
-    const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
-        if(!isFavorite)
-        {
-            // it will add that product to wishlist database
-            console.log(product_id + " " + name + " " + price + " " + description + " ")
-        }
-        else
-        {
-            // it will delete that product from wishlist database
+    const toggleFavorite = async () => {
+        const endpoint = isFavorite ? `${BASE_URL}/wishlist/remove` : `${BASE_URL}/wishlist/add`;
+
+        try {
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${await getJwtToken()}`
+                },
+                body: JSON.stringify({product_id}),
+            });
+
+            if (response.ok) {
+                console.log(isFavorite ? 'Removed from wishlist:' : 'Added to wishlist:', product_id);
+                setIsFavorite(!isFavorite);  // Change state only if successful
+            } else {
+                console.error('Failed to update wishlist');
+            }
+        } catch (error) {
+            console.error('Error updating wishlist: ', error);
         }
     };
 
