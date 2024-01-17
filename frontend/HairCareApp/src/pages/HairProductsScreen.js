@@ -5,6 +5,7 @@ import BottomNavigationBar from "../components/BottomNavigationBar"; // Ensure t
 import {Dimensions} from 'react-native';
 import CustomButton from "../components/Button";
 import {BASE_URL, formatErrorMessage, getJwtToken} from "../utils";
+import {useFocusEffect} from "@react-navigation/native";
 
 const HairProductsScreen = ({navigation}) => {
     const ItemSeparator = () => <View style={{height: 20}}/>; // Adjust height for desired spacing
@@ -41,45 +42,36 @@ const HairProductsScreen = ({navigation}) => {
         fetchProducts(selectedButton);
     }, [selectedButton]);
 
+    useFocusEffect(
+        React.useCallback(() => {
+            setProducts([]);
+            fetchProducts(selectedButton);
+        }, [])
+    );
+
     const handleProductSelection = (productType) => {
         setSelectedButton(productType);
         console.log("Selected Button:", productType); // Debugging
     };
 
-    const getButtonStyles = (buttonType) => {
-        return buttonType === selectedButton
-            ? {backgroundColor: '#615143', color: 'white'} // Active state
-            : {backgroundColor: '#C9B8A1', color: 'black'}; // Inactive state
-    };
-
     return (
         <ImageBackground
-            source={require('../utils/pictures/background-pages.png')} // replace with your local image
+            source={require('../utils/pictures/background-pages.png')}
             style={styles.backgroundImage}
         >
 
             <View style={styles.container}>
                 <Text style={styles.title}>Our Products</Text>
                 <View style={styles.menuContainer}>
-                    <CustomButton
-                        title={'Shampoo'}
-                        styleType="productMenu"
-                        style={getButtonStyles('Shampoo')}
-                        onPress={() => handleProductSelection('Shampoo')}
-                    />
-                    <CustomButton
-                        title={'Conditioner'}
-                        styleType="productMenu"
-                        style={getButtonStyles('Conditioner')}
-                        onPress={() => handleProductSelection('Conditioner')}
-                    />
-                    <CustomButton
-                        title={'Styling'}
-                        styleType="productMenu"
-                        style={getButtonStyles('Styling')}
-                        onPress={() => handleProductSelection('Styling')}
-                    />
-
+                    {['Shampoo', 'Conditioner', 'Styling'].map((productType) => (
+                        <CustomButton
+                            key={productType}
+                            title={productType}
+                            styleType="productMenu"
+                            isSelected={selectedButton === productType}
+                            onPress={() => handleProductSelection(productType)}
+                        />
+                    ))}
                 </View>
 
                 <FlatList
@@ -99,7 +91,6 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
-
     backgroundImage: {
         flex: 1,
         resizeMode: 'cover',
@@ -131,7 +122,6 @@ const styles = StyleSheet.create({
         paddingBottom: 65, // Padding at the bottom of the menu
         width: '100%', // The menu container should span the full width of the screen
     },
-    // ... Add any other styles you need
 });
 
 export default HairProductsScreen;

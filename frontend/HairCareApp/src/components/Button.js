@@ -2,15 +2,30 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import {useCustomFonts} from "../utils";
 
-const CustomButton = ({ title, onPress, styleType = 'default' }) => {
+const CustomButton = ({title, onPress, styleType = 'default', isSelected = false}) => {
     const appIsReady = useCustomFonts();
 
     if (!appIsReady) {
         return null; // Or a custom loader
     } else {
         return (
-            <TouchableOpacity style={[styles.button, styles[styleType].button]} onPress={onPress}>
-                <Text style={[styles.text, styles[styleType].text]}>{title}</Text>
+            <TouchableOpacity
+                style={[
+                    styles.button,
+                    styles[styleType].button,
+                    isSelected && styles[styleType].selectedButton // Apply selected style if isSelected is true
+                ]}
+                onPress={onPress}
+            >
+                <Text
+                    style={[
+                        styles.text,
+                        styles[styleType].text,
+                        isSelected && styles[styleType].selectedText // Apply selected text style if isSelected is true
+                    ]}
+                >
+                    {title}
+                </Text>
             </TouchableOpacity>
         );
     }
@@ -79,6 +94,12 @@ const styles = StyleSheet.create({
             fontWeight: '400',
             textTransform: 'uppercase',
             letterSpacing: 0.90,
+        },
+        selectedButton: {
+            backgroundColor: '#615143', // Selected background color
+        },
+        selectedText: {
+            color: 'white', // Selected text color
         },
     },
 });
