@@ -10,7 +10,7 @@ import {isTokenValid, storeToken} from "./src/utils";
 const Stack = createNativeStackNavigator();
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
         const subscription = AppState.addEventListener('change', (nextAppState) => {
@@ -55,7 +55,6 @@ function App() {
                 <Stack.Navigator initialRouteName="Login">
                     <Stack.Screen
                         name="Login"
-                        // component={LoginScreen}
                         children={() => <LoginScreen onLoginSuccess={() => setIsAuthenticated(true)}/>}
                         options={{headerShown: false}}/>
                     <Stack.Screen

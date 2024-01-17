@@ -10,7 +10,7 @@ const {width} = Dimensions.get('window');
 const cardWidth = width * 0.85; // 85% of the screen width
 const cardHeight = cardWidth * 0.42; // Maintain aspect ratio
 
-const ProductCard = ({id, productName, price, description, url}) => {
+const ProductCard = ({product_id, name, price, description, url}) => {
     const appIsReady = useCustomFonts();
 
     const [isFavorite, setIsFavorite] = useState(false);
@@ -20,7 +20,7 @@ const ProductCard = ({id, productName, price, description, url}) => {
         if(!isFavorite)
         {
             // it will add that product to wishlist database
-            console.log(id+ " " +productName+" "+price+" "+description+" ")
+            console.log(product_id + " " + name + " " + price + " " + description + " ")
         }
         else
         {
@@ -38,7 +38,7 @@ const ProductCard = ({id, productName, price, description, url}) => {
     } else {
         return (
             <View style={styles.cardContainer}>
-                <Text style={styles.productName}>{productName}</Text>
+                <Text style={styles.productName}>{name}</Text>
                 <Text style={styles.description}>{description}</Text>
                 <Text style={styles.price}>{price}</Text>
                 <TouchableOpacity onPress={toggleFavorite} style={styles.favoriteButton}>
