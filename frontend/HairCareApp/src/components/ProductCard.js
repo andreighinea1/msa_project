@@ -1,17 +1,36 @@
-import React from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
 import {useCustomFonts} from '../utils';
 import CustomButton from "./Button";
+import { Linking } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome'; // Replace MaterialIcons with any other icon set
+
 
 const {width} = Dimensions.get('window');
 const cardWidth = width * 0.85; // 85% of the screen width
 const cardHeight = cardWidth * 0.42; // Maintain aspect ratio
 
-const ProductCard = ({productName, price, description}) => {
+const ProductCard = ({id, productName, price, description, url}) => {
     const appIsReady = useCustomFonts();
 
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    const toggleFavorite = () => {
+        setIsFavorite(!isFavorite);
+        if(!isFavorite)
+        {
+            // it will add that product to wishlist database
+            console.log(id+ " " +productName+" "+price+" "+description+" ")
+        }
+        else
+        {
+            // it will delete that product from wishlist database
+        }
+
+    };
+
     const handleProductClick = () => {
-        console.log("Product clicked");  // TODO: Implement
+        Linking.openURL(url).catch(err => console.error("Failed to open URL:", err));
     };
 
     if (!appIsReady) {
@@ -22,6 +41,13 @@ const ProductCard = ({productName, price, description}) => {
                 <Text style={styles.productName}>{productName}</Text>
                 <Text style={styles.description}>{description}</Text>
                 <Text style={styles.price}>{price}</Text>
+                <TouchableOpacity onPress={toggleFavorite} style={styles.favoriteButton}>
+                    <Icon
+                        name={isFavorite ? 'heart' : 'heart-o'}
+                        size={24}
+                        color={isFavorite ? 'red' : 'gray'}
+                    />
+                </TouchableOpacity>
                 <CustomButton title="GO TO PRODUCT" onPress={handleProductClick} styleType={'productCard'}
                               style={styles.productCardButton}/>
                 <Text style={styles.marketPrice}>Market price</Text>
@@ -85,6 +111,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         right: 10,
+    },
+    favoriteButton: {
+        position: 'absolute',
+        top: 20,
+        right: 20,
+        zIndex: 1,
     },
 });
 

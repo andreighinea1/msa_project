@@ -59,6 +59,28 @@ const styles = StyleSheet.create({
             letterSpacing: 0.90,
         },
     },
+    productMenu: {
+        button: {
+            width: 100,
+            height: 30,
+            // backgroundColor: '#C9B8A1',
+            borderRadius: 40,
+            // position: 'absolute', // Position the button absolutely
+            bottom: 10,          // Distance from the bottom of the parent container
+            top:50,
+            marginHorizontal: 5,
+
+        },
+        text: {
+            // color: '#F9F5F0',
+            color: '#362A20',
+            fontSize: 12,
+            fontFamily: 'Abel_400Regular',
+            fontWeight: '400',
+            textTransform: 'uppercase',
+            letterSpacing: 0.90,
+        },
+    },
 });
 
 export default CustomButton;
